@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ParkSmart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /* Flash messages */
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+        }
+
+        .flash {
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        .flash.success {
+            background-color: #4ade80;
+            color: #065f46;
+        }
+
+        .flash.danger {
+            background-color: #f87171;
+            color: #7f1d1d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= FLASH MESSAGES ================= -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- ================= HEADER & NAV ================= -->
+    <header>
+        <nav class="navbar">
+            <div class="nav-logo">
+                <img src="{{ url_for('static', filename='images/parksmartlogo.jpeg') }}" alt="ParkSmart Logo" class="logo-img">
+                <h1>ParkSmart</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Search Locations</a></li>
+                <li><a href="#">ABOUT US</a></li>
+                {% if session.get('username') %}
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                {% endif %}
+                <div class="nav-search">
+                    <input type="text" id="locationInput" placeholder="Search Parking Spot...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="main-container">
+
+        <!-- Hero Section -->
+        <div class="screen">
+            <div class="hero-section">
+                <h1>Find & Book <br/> Smarter with ParkSmart!</h1>
+                <p>Say goodbye to parking struggles. Reserve your spot in seconds and park hassle-free with our smart parking system.</p>
+                <div class="download-buttons">
+                    <a href="#to be added" class="button app-store">
+                        <i class="fa-brands fa-apple"></i>
+                    </a>
+                    <a href="#to be added" class="button google-play">
+                        <i class="fa-brands fa-google-play"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="youtube">
+                <video autoplay loop muted playsinline>
+                    <source src="{{ url_for('static', filename='images/video.mp4') }}" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- How it works -->
+        <div class="three-parts">
+            <div class="content-section">How It Works?</div>
+            <div class="image-text-container">
+                <div class="content-boxs">
+                    <img src="{{ url_for('static', filename='images/image1.png') }}" alt="Logo">
+                    <span>Enter your <b>destination</b> and find available parking spots nearby.</span>
+                </div>
+                <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="content-boxs">
+                    <img src="{{ url_for('static', filename='images/image2.png') }}" alt="Logo">
+                    <span>Choose your <b>preferred slot</b> and make an instant reservation.</span>
+                </div>
+                <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="content-boxs">
+                    <img src="{{ url_for('static', filename='images/image3.png') }}" alt="Logo">
+                    <span><b>Park Smartly</b> — navigate to your booked spot and enjoy a seamless parking experience!</span>
+                </div>
+            </div>
+            <div class="ticket-para">
+                <h2>[One click = your parking spot reserved instantly]</h2>
+            </div>
+        </div>
+
+        <!-- Why choose us -->
+        <div class="why-section">
+            <div class="header-row"><h1>Why Choose ParkSmart?</h1></div>
+            <div class="item-box">
+                <div class="rows">
+                    <div class="inner-row-boxs">
+                        <img src="{{ url_for('static', filename='images/image4.png') }}" alt="Logo">
+                        <p>Real-time updates and <span class="highlight">live slot availability</span>.</p>
+                    </div>
+                    <div class="inner-row-boxs">
+                        <img src="{{ url_for('static', filename='images/image5.png') }}" alt="Logo">
+                        <p><span class="highlight">Smart navigation</span> to guide you directly to your parking space.</p>
+                    </div>
+                    <div class="inner-row-boxs">
+                        <img src="{{ url_for('static', filename='images/image6.png') }}" alt="Logo">
+                        <p><span class="highlight">Secure and verified</span> parking locations across the city.</p>
+                    </div>
+                </div>
+                <div class="rows">
+                    <div class="inner-row-boxs">
+                        <img src="{{ url_for('static', filename='images/image7.png') }}" alt="Logo">
+                        <p><span class="highlight">Track your bookings</span> and manage payments digitally.</p>
+                    </div>
+                    <div class="inner-row-boxs">
+                        <img src="{{ url_for('static', filename='images/image9.png') }}" alt="Logo">
+                        <p><span class="highlight">Transparent pricing</span> — no hidden charges.</p>
+                    </div>
+                    <div class="inner-row-boxs">
+                        <img src="{{ url_for('static', filename='images/image8.png') }}" alt="Logo">
+                        <p><span class="highlight">24/7 customer support</span> for a smooth experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compare Section -->
+        <div class="compare-section">
+            <div class="heading"><h1>ParkSmart vs Traditional Parking</h1></div>
+            <div class="main-compare">
+                <div class="youtube2">
+                    <video width="700" height="700" autoplay muted loop>
+                        <source src="{{ url_for('static', filename='images/login2.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
+                <div class="right-table">
+                    <table>
+                        <tr>
+                            <th>Features</th>
+                            <th>ParkSmart</th>
+                            <th>Traditional</th>
+                        </tr>
+                        <tr>
+                            <td class="black">Booking</td>
+                            <td class="grey">Online & Instant</td>
+                            <td class="half-white">Manual</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Availability</td>
+                            <td class="grey">Real-time Tracking</td>
+                            <td class="half-white">Uncertain</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Security</td>
+                            <td class="grey">Verified Locations</td>
+                            <td class="half-white">Not Always</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Payment</td>
+                            <td class="grey">Digital & Cashless</td>
+                            <td class="half-white">Cash Only</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Experience</td>
+                            <td class="grey">Seamless & Smart</td>
+                            <td class="half-white">Time-consuming</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Working Videos & App Section -->
+        <div class="working-video">
+            <div class="work-head"><h1>How Online Parking Works</h1></div>
+            <div class="videos">
+                <div class="youtube2">
+                    <video width="972" height="543" autoplay muted loop>
+                        <source src="{{ url_for('static', filename='images/login_video.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <div class="prorata-app">
+            <div class="left-app">
+                <div class="videos-container">
+                    <video width="400" height="800" autoplay muted loop>
+                        <source src="{{ url_for('static', filename='images/login4.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="right-app">
+                <div class="content">
+                    <p class="para-head">ParkSmart App</p>
+                    <p><span class="para-highlight">Book parking</span> and check slot availability in real time.</p>
+                    <p><span class="para-highlight">Navigation support</span> to reach your spot effortlessly.</p>
+                    <p><span class="para-highlight">Manage all bookings</span> and payments in one place.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="working-video">
+            <div class="work-head exception">
+                <h1>ParkSmart Parking Facilities</h1>
+            </div>
+            <div class="videos">
+                <video width="600" height="1000" autoplay loop>
+                    <source src="{{ url_for('static', filename='images/login2.mp4') }}" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div id="faq" class="frequently-questions">
+            <div class="frequent-head"><h1>Frequently Asked Questions</h1></div>
+            <div class="question-box">
+                <div class="question" data-question="plan">
+                    <p>How do I book a parking slot? <i class="fa-solid fa-chevron-down"></i></p>
+                    <div class="answer">Simply enter your location, choose a slot, and confirm your booking online.</div>
+                </div>
+                <div class="question" data-question="freeze">
+                    <p>Can I cancel or modify my booking? <i class="fa-solid fa-chevron-down"></i></p>
+                    <div class="answer">Yes, you can modify or cancel your booking before your reserved time begins.</div>
+                </div>
+                <div class="question" data-question="trainer">
+                    <p>Is there any extra fee for peak hours? <i class="fa-solid fa-chevron-down"></i></p>
+                    <div class="answer">Peak-hour pricing may vary depending on demand and location.</div>
+                </div>
+                <div class="question" data-question="diet">
+                    <p>Do you provide security at parking sites? <i class="fa-solid fa-chevron-down"></i></p>
+                    <div class="answer">Yes, all ParkSmart locations are verified and equipped with 24/7 CCTV monitoring.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CHATBOT ================= -->
+    <div class="chatbot-container" id="chatbot">
+        <div class="chat-header">
+            🚗 ParkSmart Bot 
+            <button id="toggle-btn">-</button>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-box" id="chat-box">
+                <div class="bot-message">
+                    Hi! I'm ParkSmart.<br>We are currently available in <br>GH Raisoni Wadi Campus<br>GH Raisoni Hingna Campus<br>GH Raisoni Dighdoh Campus
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Ask something..." />
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+    <script src="{{ url_for('static', filename='css/chatbot.js') }}"></script>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // FAQ toggle
+            document.querySelectorAll('.question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.querySelector('.answer');
+                    const icon = question.querySelector('i');
+                    const isVisible = answer.style.display === 'block';
+
+                    document.querySelectorAll('.answer').forEach(a => a.style.display = 'none');
+                    document.querySelectorAll('.question i').forEach(i => i.className = 'fa-solid fa-chevron-down');
+
+                    if (!isVisible) {
+                        answer.style.display = 'block';
+                        icon.className = 'fa-solid fa-chevron-up';
+                    }
+                });
+            });
+
+            // Location search
+            const availableLocations = {
+                "gh raisoni sadar": "/ghr_sadar",
+                "gh raisoni wadi": "/ghr_wadi",
+                "gh raisoni dighdoh": "/ghr_dighdoh"
+            };
+            const input = document.getElementById("locationInput");
+            const searchBtn = document.getElementById("searchBtn");
+            searchBtn.addEventListener("click", () => {
+                const query = input.value.trim().toLowerCase();
+                const path = availableLocations[query] || Object.keys(availableLocations).find(loc => loc.includes(query)) && availableLocations[query];
+                if (path) window.location.href = path;
+                else alert("🚧 We are only available in GH Raisoni Wadi, Sadar, Dighdoh for now.");
+            });
+
+            // Auto-hide flash messages after 5 seconds
+            setTimeout(() => {
+                const flashes = document.querySelectorAll('.flash');
+                flashes.forEach(flash => {
+                    flash.style.opacity = '0';
+                    setTimeout(() => flash.remove(), 1000);
+                });
+            }, 5000);
+
+            // Chatbot toggle
+            const toggleBtn = document.getElementById("toggle-btn");
+            const chatbot = document.getElementById("chatbot");
+            let isMinimized = false;
+            toggleBtn.addEventListener("click", () => {
+                isMinimized = !isMinimized;
+                chatbot.classList.toggle("minimized");
+                toggleBtn.textContent = isMinimized ? "+" : "−";
+            });
+        });
+    </script>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <h2>ParkSmart</h2>
+                <p>Find and book parking spots instantly. Save time, save money, park smart.</p>
+            </div>
+            <div class="footer-right">
+                <h3>Stay Updated</h3>
+                <p>Subscribe to get the latest updates and offers.</p>
+                <div class="footer-subscribe">
+                    <input type="email" placeholder="Enter your email">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 ParkSmart. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

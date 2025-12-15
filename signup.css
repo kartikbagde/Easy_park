@@ -1,0 +1,241 @@
+/* FULL PAGE BACKGROUND */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #0d0d0d, #1a1a1a, #111);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+}
+
+/* MAIN CONTAINER */
+.login-container {
+    display: flex;
+    width: 850px;
+    max-width: 95%;
+    height: 520px;
+    margin: 40px auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+    background: #111;
+}
+
+/* VIDEO SECTION */
+.login-video {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* FORM SECTION */
+.form-section {
+    width: 50%;
+    background: #1c1c1c;
+    padding: 35px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.form-section h2 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+    word-wrap: break-word;
+}
+
+/* INPUT BOX */
+.input-box {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 12px 40px 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #222;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s ease;
+    box-sizing: border-box;
+}
+
+.input-box input:focus {
+    border-color: #0af;
+    box-shadow: 0 0 8px #0af;
+}
+
+/* STATUS ICONS */
+.status-icon {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    font-size: 18px;
+    pointer-events: none;
+}
+
+.valid {
+    color: #15ff00;
+}
+
+.invalid {
+    color: #ff2727;
+}
+
+/* EYE ICON */
+.eye-icon {
+    position: absolute;
+    right: 35px;
+    top: 12px;
+    cursor: pointer;
+    color: #aaa;
+    font-size: 16px;
+}
+
+.eye-icon:hover {
+    color: #fff;
+}
+
+/* BUTTON */
+.main-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #0af;
+    border: none;
+    border-radius: 8px;
+    color: #000;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.main-btn:hover {
+    background: #08c;
+}
+
+/* DIVIDER */
+.divider {
+    text-align: center;
+    margin: 15px 0;
+    color: #ccc;
+}
+
+.signup-btn {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background: #444;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.signup-btn:hover {
+    background: #555;
+}
+
+/* FLASH POPUP (matches login page style) */
+.popup {
+    position: fixed;
+    top: -80px; /* hidden by default */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0af;
+    padding: 12px 25px;
+    border-radius: 8px;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: top 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+    z-index: 1000;
+}
+
+/* SHOW POPUP */
+.popup.show {
+    top: 20px;
+    opacity: 1;
+}
+
+/* LOADING OVERLAY */
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 999;
+}
+
+.loading-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #eee;
+    border-top-color: #0af;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: #fff;
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+
+@media (max-width: 820px) {
+    .login-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .login-video {
+        width: 100%;
+        height: 200px;
+    }
+
+    .form-section {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .form-section h2 {
+        font-size: 20px;
+    }
+
+    .input-box input {
+        font-size: 14px;
+    }
+
+    .main-btn {
+        font-size: 14px;
+    }
+}

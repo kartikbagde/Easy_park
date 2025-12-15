@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ParkSmart Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <header>
+        <h1>{{ session['username'] }}'s Dashboard</h1>
+    </header>
+
+    <section class="stats">
+        <div class="stat-card">
+            <h3>Total Bookings</h3>
+            <p id="total-bookings">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Available Slots</h3>
+            <p id="available-slots">0</p>
+        </div>
+    </section>
+
+    <section class="campuses">
+        {% for campus, bookings in user_bookings.items() %}
+        <div class="campus-card" data-campus="{{ campus }}">
+            <h2>{{ campus }}</h2>
+            {% set total_slots = 140 %} 
+            <div class="campus-stats">
+                <p>Total Slots: {{ total_slots }}</p>
+                <p>Booked: {{ bookings|length }}</p>
+                <p>Available: {{ total_slots - bookings|length }}</p>
+            </div>
+
+            {% if bookings %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Slot ID</th>
+                        <th>Status</th>
+                        <th>Booked At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for slot_id, booked_at, expiry_time, status in bookings %}
+                    <tr>
+                        <td>{{ slot_id }}</td>
+                        <td class="status">Booked</td>
+                        <td>{{ booked_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="no-bookings">No bookings yet.</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </section>
+
+    <script>
+        
+        function updateStats() {
+            let totalSlots = 0;
+            let totalBooked = 0;
+
+            document.querySelectorAll('.campus-card').forEach(card => {
+                const total = parseInt(card.querySelector('.campus-stats p:first-child').textContent.split(':')[1].trim());
+                const booked = parseInt(card.querySelector('.campus-stats p:nth-child(2)').textContent.split(':')[1].trim());
+                totalSlots += total;
+                totalBooked += booked;
+            });
+
+            document.getElementById('total-bookings').textContent = totalBooked;
+            document.getElementById('available-slots').textContent = totalSlots - totalBooked;
+        }
+
+        window.onload = updateStats;
+    </script>
+</body>
+</html>

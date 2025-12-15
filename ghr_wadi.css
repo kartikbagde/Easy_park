@@ -1,0 +1,482 @@
+/* -------------------------------------------------
+   Global Reset + Modern Feel
+--------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #f3f5f7;
+  color: #222;
+}
+
+/* -------------------------------------------------
+   Navbar – Clean Black With Soft Shadow
+--------------------------------------------------- */
+.navbar {
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 8%;
+  background: #000;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+.nav-logo img.logo-img {
+  width: 48px;
+}
+
+.nav-logo h1 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: #f2f2f2;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.nav-links a:hover {
+  color: #26d0ce;
+}
+
+/* -------------------------------------------------
+   Header
+--------------------------------------------------- */
+.page-header {
+  padding-top: 6rem;
+  padding-bottom: 1rem;
+  text-align: center;
+  background: #f3f3f3;
+  font-size: 1.45rem;
+  color: #333;
+  font-weight: 600;
+}
+
+/* -------------------------------------------------
+   Main Layout
+--------------------------------------------------- */
+.main-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 2rem 5%;
+  gap: 2rem;
+  margin-top: 0.5rem;
+}
+
+/* -------------------------------------------------
+   Map Container – Glass + Shadow
+--------------------------------------------------- */
+.map-container {
+  flex: 2;
+  height: 75vh;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  position: relative;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/* -------------------------------------------------
+   Legend – Modern Chips With Blur
+--------------------------------------------------- */
+.map-legend {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 10px 14px;
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+  font-size: 0.9rem;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-dot.available {
+  background: #13d47b;
+}
+
+.legend-dot.booked {
+  background: #ff4747;
+}
+
+/* -------------------------------------------------
+   Slots Sidebar – Premium Card Style
+--------------------------------------------------- */
+.slots-container {
+  flex: 1;
+  max-height: 75vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  border: 1px solid #e8e8e8;
+}
+
+/* -------------------------------------------------
+   Controls
+--------------------------------------------------- */
+#controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 10px;
+}
+
+.loading {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* -------------------------------------------------
+   Buttons – Modern Teal Gradient
+--------------------------------------------------- */
+button {
+  background: linear-gradient(135deg, #26d0ce, #1a87f0);
+  border: none;
+  color: white;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+button:hover:not([disabled]) {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* -------------------------------------------------
+   Slot Cards – Realistic Cards
+--------------------------------------------------- */
+.slot {
+  background: #fff;
+  border: 1px solid #e4e4e4;
+  margin-bottom: 0.75rem;
+  border-radius: 10px;
+  padding: 0;
+  transition: 0.25s;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.slot:hover {
+  transform: scale(1.02);
+  background: #fcfeff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+.slot.selected {
+  border-color: #1a87f0;
+  background: #eef6ff;
+}
+
+/* Slot Header */
+.slot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+}
+
+.slot-header button.toggle-btn {
+  background: transparent;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Slot Details */
+.slot-details {
+  display: none;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.92rem;
+  color: #555;
+}
+
+/* -------------------------------------------------
+   Popup Buttons (Leaflet)
+--------------------------------------------------- */
+.leaflet-popup-content .popup-btn {
+  background: linear-gradient(135deg, #26d0ce, #1a87f0);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.leaflet-popup-content .popup-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Status Colors */
+.status-available {
+  color: #0f8a2c;
+  font-weight: 700;
+}
+
+.status-booked {
+  color: #d10000;
+  font-weight: 700;
+}
+
+/* -------------------------------------------------
+   Gate markers + bubble + bounce (NEW)
+--------------------------------------------------- */
+
+/* gate marker DivIcon (small dot) */
+.gate-divicon { pointer-events: none; } /* parent div handled by marker */
+.gate-divicon .gate-dot {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+  transform: translateY(0);
+}
+
+/* bounce animation for icon */
+@keyframes gateBounce {
+  0%   { transform: translateY(0); }
+  40%  { transform: translateY(-16px); }
+  60%  { transform: translateY(0); }
+  80%  { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+.gate-bounce { animation: gateBounce 1s cubic-bezier(.2,.9,.3,1); }
+
+/* small pulse highlight when show slots clicked */
+.pulse-highlight {
+  box-shadow: 0 8px 30px rgba(26,135,240,0.25) !important;
+  transform: scale(1.07) !important;
+  transition: transform .18s ease;
+}
+
+/* popup (bubble) styling */
+.leaflet-container .gate-popup .gate-bubble,
+.gate-bubble {
+  width: 220px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 12px 40px rgba(8,16,30,0.12);
+  border: 1px solid rgba(8,16,30,0.06);
+  font-size: 13px;
+  color: #122;
+}
+
+/* little head */
+.gate-bubble .bubble-head { font-weight: 700; margin-bottom: 6px; color: #0f172a; }
+
+/* body rows */
+.gate-bubble .bubble-body .bubble-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.gate-bubble .bubble-body .bubble-row span { font-size: 13px; color: #334; }
+
+/* actions */
+.gate-bubble .bubble-actions { display:flex; justify-content:flex-end; margin-top: 8px; }
+.gate-bubble .btn-go {
+  background: linear-gradient(135deg, #26d0ce, #1a87f0);
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* popup arrow override (makes a subtle shadowed pointer) */
+.leaflet-popup-tip-container { display: none; } /* hide default tip to use CSS arrow */
+.gate-popup .leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+}
+.gate-popup .leaflet-popup-content { padding: 0; }
+
+/* add a manual arrow using :after on .leaflet-popup */
+.gate-popup .leaflet-popup-content-wrapper::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: #ffffff transparent transparent transparent;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.08));
+}
+
+/* distance text emphasised */
+.distance-text { color: #1765e6; font-weight: 700; }
+
+/* ensure popups are not too large on small screens */
+@media (max-width: 420px) {
+  .gate-bubble { width: 170px; font-size: 12px; }
+  .gate-divicon .gate-dot { width: 16px; height: 16px; border-width: 2px; }
+}
+
+/* -------------------------------------------------
+   Responsive Settings (original)
+--------------------------------------------------- */
+@media (max-width: 1024px) {
+  .main-container {
+    flex-direction: column;
+  }
+
+  .map-container,
+  .slots-container {
+    width: 100%;
+    height: 60vh;
+  }
+
+  .map-legend {
+    flex-direction: row;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav-logo h1 {
+    font-size: 18px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* --------------------------------
+   Booking Drawer (Desktop)
+-------------------------------- */
+.drawer {
+  position: fixed;
+  top: 4rem;
+  right: 0;
+  width: 340px;
+  height: calc(100vh - 4rem);
+  background: #ffffff;
+  box-shadow: -8px 0 30px rgba(0,0,0,0.15);
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.drawer-body {
+  padding: 1.2rem;
+  flex: 1;
+}
+
+.drawer-body select {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.8rem 0;
+}
+
+.drawer-body button {
+  width: 100%;
+}
+

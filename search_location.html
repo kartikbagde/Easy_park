@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Locations - ParkSmart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <img src="/static/images/logo.jpg" alt="ParkSmart Logo">
+            <span>ParkSmart</span>
+        </div>
+
+        <!-- Search Box in Header -->
+        <div class="header-search">
+            <input type="text" placeholder="Search for parking location...">
+            <button>Search</button>
+        </div>
+
+        <nav>
+            <ul>
+                <li><button id="darkModeToggle">Dark Mode</button></li>
+                <li><a href="{{ url_for('booking') }}" class="main-btn">Book Parking</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Locations List -->
+    <main>
+        <div class="container">
+            <section class="available-parking">
+                <div class="parking-header">
+                    <div class="parking-info">
+                        <h2>All Available Parking Locations</h2>
+                        <p>100+ parking spots found</p>
+                    </div>
+                    <div class="filter-dropdown">
+                        <button class="filter-btn">Filter ▼</button>
+                        <ul class="dropdown">
+                            <li data-filter="highly-used">Highly Used</li>
+                            <li data-filter="college">Colleges</li>
+                            <li data-filter="hotel">Hotels</li>
+                            <li data-filter="open-for-everyone">Open for Everyone</li>
+                            <li data-filter="security">Security</li>
+                            <li data-filter="complex">Complex</li>
+                            <li data-filter="all">Show All</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Parking Cards (Add as many as you want) -->
+                <div class="parking-list">
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category="hotel accessible security">
+                        <img src="https://b.zmtcdn.com/data/pictures/0/18722480/7808cd5774bb38cd9f7e2aad8b27e449.jpg" alt="Location Name">
+                        <h3>Cafe- Farzi</h3>
+                        <p class="address">Dharampeth, Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>Accessible</span>
+                            <span>Security</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Cafe Farzi">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category=" accessible security">
+                        <img src="https://content3.jdmagicbox.com/v2/comp/nagpur/k4/0712px712.x712.240722161820.w1k4/catalogue/xplore-turf-and-trampoline-park-nagpur-parks-QyFOMNSe0e.jpg" alt="Location Name">
+                        <h3>Explore Park Nagpur</h3>
+                        <p class="address">Wadi Road, Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>Accessible</span>
+                            <span>Security</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Explore Park Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="highly-used  accessible ">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDLT4pMu2xW6PPi03HisRqtk0QSsG4ABMLQQ&s" alt="Location Name">
+                        <h3>Mahal Road</h3>
+                        <p class="address">Mahal, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Accessible</span>
+                            <span>24/7 Open</span>
+                            <span>E-V Charging</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Mahal Road">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <!-- Add more cards here as needed -->
+                
+                
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category="accessible security open-for-everyone ">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRm2OFQEfxNKZ-58NjSdErwkxgxPIMdAOtJoA&s" alt="Location Name">
+                        <h3>Civil Lines City-Court</h3>
+                        <p class="address">Near Ramdas Peth, Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>Accessible</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Civil Lines City-Court">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="highly-used accessible security open-for-everyone">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF00-LU_1fG27QNkFiu7zoi4UIpyfu5f3cOw&s" alt="Location Name">
+                        <h3>Zero-Mile Freedom Park </h3>
+                        <p class="address">Civil Lines, Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Accessible</span>
+
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Zero-Mile Freedom Park ">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="highly-used ">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH8KygcKD69oXcFa15rb_kExvMOwYSCMyF_Q&s" alt="Location Name">
+                        <h3>Deekshabhoomi</h3>
+                        <p class="address">Deekshabhomi, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Security</span>
+                            <span>24/7 Open</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Deekshabhoomi">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <!-- Add more cards here as needed -->
+                
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category="accessible security hotel complex">
+                        <img src="https://www.kayak.co.in/rimg/himg/f7/30/de/ice-289034-125114319-048820.jpg?width=836&height=607&crop=true" alt="Location Name">
+                        <h3>Hotel Redisson Blu</h3>
+                        <p class="address">Jaiprakash, Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>Accessible</span>
+                            <span>Security</span>
+                            <span>24/7</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Hotel Redisson Blu">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="accessible security college">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKII10ASbJ4jI22NcWwJ9TM0KdSGwWghOi-A&s" alt="Location Name">
+                        <h3>Priyadarshini College Dighdoh</h3>
+                        <p class="address">Lokmanya Nagar, Dighdoh, Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>For Students & Faculty</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Priyadarshini College Dighdoh">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="accessible security college">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaCPmMxIdUCenKhYeg9kRng92wekbCzBbLLA&s" alt="Location Name">
+                        <h3>YCCE college Nagpur</h3>
+                        <p class="address">Wanadongri, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Security</span>
+                            <span>24/7 Open</span>
+                            <span>For Students & Faculty</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=YCCE college Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <!-- Add more cards here as needed -->
+                
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category="highly-used accessible open-for-everyone">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3VQ8vcKipWp6gmBxCpjWOxuNsSqBCDTqmCw&s" alt="Location Name">
+                        <h3>London Street Nagpur</h3>
+                        <p class="address">190, Surve Nagar, Trimurti Nagar, Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=London Street Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="highly-used security open-for-everyone">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMHFINx7Aov7FfGqtSFVbsz-CN5_hhZwb_9w&s" alt="Location Name">
+                        <h3>Nagpur Airport</h3>
+                        <p class="address">Sonegaon, Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Nagpur Airport">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="highly-used open-for-everyone">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOFnWSRoaRBiBKHJz3FP4Kbxv7nbRfX_bFDQ&s" alt="Location Name">
+                        <h3>Nagpur Centrail Railway Station</h3>
+                        <p class="address">43XQ+9PF, Ghat Rd, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>24/7 Open</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Nagpur Centrail Railway Station">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <!-- Add more cards here as needed -->
+               
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category="highly-used complex">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1RyhPUAtpK08_S9xJUGy-dzQZoWZYOI4sg&s" alt="Location Name">
+                        <h3>Reshimbagh Nagpur</h3>
+                        <p class="address">Sakkardhara, Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Near Railway Station</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Reshimbagh Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="accessible security ">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuCDkjhNYgvnhdzG4cv7cDMJGzBQTRZRAO7g&s" alt="Location Name">
+                        <h3>Swaminarayan Temple Nagpur</h3>
+                        <p class="address">Swaminarayan Marg Middle Ring road, Wathoda, Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Swaminarayan Temple Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="highly-used open-for-everyone">
+                        <img src="https://content3.jdmagicbox.com/comp/nagpur/m6/0712px712.x712.170901131422.z7m6/catalogue/ajni-railway-station-ajni-nagpur-iuix437q02.jpg" alt="Location Name">
+                        <h3>Ajni Railway Station</h3>
+                        <p class="address">Congress Nagar, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Security</span>
+                            <span>Accessible</span>
+                            <span>24/7 Open</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Ajni Railway Station">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <!-- Add more cards here as needed -->
+                
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category="highly-used hotel complex">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREtg_kw_-JTsJKq4kVNsr09PPqps3KMpUDHg&s" alt="Location Name">
+                        <h3>MIDC Butibori</h3>
+                        <p class="address">Butibori, Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=MIDC Butibori">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category=" security complex">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTg5wGDqfz1HPbuqTkWvtoLYLlpboGaddkiA&s" alt="Location Name">
+                        <h3>Infosys Nagpur</h3>
+                        <p class="address">MIHAN, Nagpur, Dahegaon,</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Office Parking</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Infosys Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="security complex">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwg0ZRx1SCSmxiZIJE3mj5hbul65YVLuOAcg&s" alt="Location Name">
+                        <h3>TCS Nagpur</h3>
+                        <p class="address">MIHAN, Nagpur, Telhara,</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Security</span>
+                            <span>24/7 Open</span>
+                             <span>Office Parking</span>
+                              <span>EV Charging</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=TCS Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <!-- Add more cards here as needed -->
+                
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category="accessible security open-for-everyone">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQDAqC2qRm--uXqxfHHQf4CB2lG5O0dfaeQg&s" alt="Location Name">
+                        <h3>Gorewada Zoo</h3>
+                        <p class="address">near Katol Road, Bodhala,Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>Closes at 4PM</span>
+                            <span>EV Charging</span>
+                            <span>24/7 Open for staff</span>
+                            <span>Security</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Gorewada Zoo">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="open-for-everyone highly-used">
+                        <img src="https://hotelorientgroup.in/wp-content/uploads/2023/07/maharaj-bag-zoo-nagpur.png" alt="Location Name">
+                        <h3>Maharaja Bagh</h3>
+                        <p class="address">Maharaja Bagh, Gorepeth, Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>24/7 Open for Staff</span>
+                            <span>Security</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Maharaja Bagh">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="security complex">
+                        <img src="https://dyimg2.realestateindia.com/prop_images/1232397/911495_1-350x350.jpg" alt="Location Name">
+                        <h3>Friends Colony</h3>
+                        <p class="address">KT Nagar, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Security</span>
+                            <span>24/7 Open</span>
+                            <span>Near Bus-Station</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Friends Colony">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <!-- Add more cards here as needed -->
+                
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category="accessible  highly-used">
+                        <img src="https://content.jdmagicbox.com/comp/nagpur/05/0712p712std8000005/catalogue/state-transport-bus-stand-ganesh-peth-nagpur-st-bus-depot-gy6ec1fpx5-250.jpg" alt="Location Name">
+                        <h3>Ganeshpeth Main-Bus Stop</h3>
+                        <p class="address">Ganeshpeth Colony, Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Ganeshpeth Main-Bus Stop">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="open-for-everyone security highly-used">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwoYp52MPcvzRwnTJlomWBpqEQRViFPV-mYQ&s" alt="Location Name">
+                        <h3>RBI Square</h3>
+                        <p class="address">RBI Square civil lines, Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=RBI Square">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category=" security complex">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBOTqfz6y1E58Y0t1iCwfXVhdpcPVqQBSLWA&s" alt="Location Name">
+                        <h3>HCL Nagpur</h3>
+                        <p class="address">MIHAN SEZ, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Security</span>
+                            <span>24/7 Open</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=HCL Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <!-- Add more cards here as needed -->
+                
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category=" security highly-used complex">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCHQqR7k75fQ1CO1FnU-IwF_Rnp8hLfoM8QA&s" alt="Location Name">
+                        <h3>Persistent Nagpur</h3>
+                        <p class="address">IT Park, Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                            <span>only for Staff</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Persistent Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="college security">
+                        <img src="https://content.jdmagicbox.com/comp/nagpur/v9/0712px712.x712.180628034030.j6v9/catalogue/shri-ramdeobaba-college-of-engineering-and-management-bupeshnagar-nagpur-colleges-7r1915oet1.jpg" alt="Location Name">
+                        <h3>Ramdeobaba College Nagpur</h3>
+                        <p class="address">53G6+JJX, Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Student and faculty parking</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Ramdeobaba College Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="accessible security highly-used open-for-everyone hotel">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCSRCCwOx6-t1svyv0Dhft1rk39-kk7VTEQA&s" alt="Location Name">
+                        <h3>VCA Cricket Stadium</h3>
+                        <p class="address">jamtha, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Security</span>
+                            <span>24/7 Open</span>
+                            <span>Accessible</span>
+                            <span>Open for Everyone</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=VCA Cricket Stadium">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+                
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category="open-for-everyone highly-used">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtWZGCwM1TYAl8i-Mf8cwT74suAc0s9fEJCQ&s" alt="Location Name">
+                        <h3>Sita buldi Nagpur</h3>
+                        <p class="address">Sitabuldi Metro Station,Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Open of Everyone</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Sita buldi Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="accessible security highly-used open-for-everyone">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHDh7DZEhn8Jtz_cx2QKKJBMFEIbdiQBmAXg&s" alt="Location Name">
+                        <h3>Sakkardhara</h3>
+                        <p class="address">Sakkardhara,Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Sakkardhara">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category=" complex ">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN-n1AHSTXDYcB2rD_dbZeH0TMy6Qjzb1o7Q&s" alt="Location Name">
+                        <h3>Pardi Nagpur</h3>
+                        <p class="address">Dighori Road, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>24/7 Open</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Pardi Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <!-- Add more cards here as needed -->
+                
+                    <!-- Example Location Card -->
+                    <div class="parking-card" data-category="complex highly-used">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN8RovEGDdr7qQDQqkSXvrLpXcw2dyIY1DzQ&s" alt="Location Name">
+                        <h3>Siminary Hills Nagpur</h3>
+                        <p class="address">Seminary Hills Near SFS,Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>Security</span>
+                            <span>Open of Everyone</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Siminary Hills Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="open-for-everyone highly-used">
+                        <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSNW7WE4PApVF6KTroAa5bvXwZ5Iq8GlLuwy6EI6f4jGXR9ckr7OoRmJc6AhOD2mV7hm3R6IveZ3BlAvPKLtKBGTDc&s=19" alt="Location Name">
+                        <h3>Futala Lake</h3>
+                        <p class="address">Telankhedi,Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Futala Lake">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="open-for-everyone highly-used">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZba6dSR53jDH6_tVoDp5uasAPDH0KaRjMzg&s" alt="Location Name">
+                        <h3>Ambazari Lake</h3>
+                        <p class="address">Dighori Road, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Accessible</span>
+                            <span>24/7 Open</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Ambazari Lake">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+                
+                    <div class="parking-card" data-category="security highly-used">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8FSuj8d6YLYJmBelHlK6B2_rmD6H9P9rO5Q&s" alt="Location Name">
+                        <h3>VR Mall,Nagpur</h3>
+                        <p class="address">Medical Square,Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=VR Mall,Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="security highly-used">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3SCT0MVl4FLefqPKpFao8RxLUfJpwpjpnuQ&s" alt="Location Name">
+                        <h3>Eternity Mall buldi</h3>
+                        <p class="address">Buldi,Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Eternity Mall buldi">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="open-for-everyone accessible">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH66R6IbGz6cF4YtPynqYij0BAbHsa0YhCRA&s" alt="Location Name">
+                        <h3>Shree Sai Temple</h3>
+                        <p class="address">Wardha Road, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Accessible</span>
+                            <span>24/7 Open</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Shree Sai Temple">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="security highly-used open-for-everyone">
+                        <img src="https://media1.thrillophilia.com/filestore/snrjv8iru32m1kdy2wbbcm7xmol6_1553512523_kasturchand_park.jpg" alt="Location Name">
+                        <h3>Kasturchand Park</h3>
+                        <p class="address">RBI Square,Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Kasturchand Park">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="complex security">
+                        <img src="https://is1-2.housingcdn.com/4f2250e8/7fef4bf434b66948c8fe883556e52c19/v0/fs/emperio-jaripatka-nagpur-jarry_profit.jpeg" alt="Location Name">
+                        <h3>Jaripatka Nagpur</h3>
+                        <p class="address">Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Jaripatka Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="complex">
+                        <img src="https://housing-images.n7net.in/4f2250e8/cb0ccee1df45c0d0abdb5ad75bba40ae/v0/medium/shree_nagari_1-pipla-nagpur-shree_mangalmurti_buildcon.jpeg" alt="Location Name">
+                        <h3>Bahadura</h3>
+                        <p class="address">Dighori Road, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Accessible</span>
+                            <span>24/7 Open</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Bahadura">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+                
+                    <div class="parking-card" data-category="security hotel accessible">
+                        <img src="https://static.travelated.com/storage/hotels3/502/502193/property/68827205181.webp?w=3840&webp.quality=75&format=webp&scale=down&mode=crop" alt="Location Name">
+                        <h3>Hotel Tuli Emperial</h3>
+                        <p class="address">Dharampeth,Nagpur</p>
+                        <p class="rating">⭐ 4.5/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Hotel Tuli Emperial">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="security highly-used open-for-everyone">
+                        <img src="https://cdn.hexahealth.com/Image/b9c26ff7-28a1-4e32-b0c7-a5560199f44a.jpg" alt="Location Name">
+                        <h3>Lata Mangeshkar Hospital</h3>
+                        <p class="address">Wanadongri,Nagpur</p>
+                        <p class="rating">⭐ 4.2/5</p>
+                        <div class="features">
+                            <span>EV Charging</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                            <span>Accessible</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Lata Mangeshkar Hospital">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+
+                    <div class="parking-card" data-category="security accessible highly-used">
+                        <img src="https://medsurgeindia.com/wp-content/uploads/2024/02/Seven-Star-Hospital-Nagpur.webp" alt="Location Name">
+                        <h3>Seven-Star-Hospital-Nagpur</h3>
+                        <p class="address">Telephone Exchange Square, Nagpur</p>
+                        <p class="rating">⭐ 4.8/5</p>
+                        <div class="features">
+                            <span>Accessible</span>
+                            <span>24/7 Open</span>
+                            <span>Security</span>
+                        </div>
+                        <a href="{{ url_for('booking') }}?location=Seven-Star-Hospital-Nagpur">
+                            <button class="book-btn">Book Now</button>
+                        </a>
+                    </div>
+                </div>
+                
+            </section>
+        </div>
+    </main>
+        <script>
+            const searchInput = document.querySelector('.header-search input');
+            const filterItems = document.querySelectorAll('.dropdown li');
+            const cards = document.querySelectorAll('.parking-card');
+
+            let activeFilter = 'all';
+
+            function applyFilters() {
+                const searchText = searchInput.value.toLowerCase();
+
+                cards.forEach(card => {
+                    const name = card.querySelector('h3').innerText.toLowerCase();
+                    const address = card.querySelector('.address').innerText.toLowerCase();
+                    const categories = card.dataset.category ? card.dataset.category.split(' ') : [];
+
+                    const matchesSearch =
+                        name.includes(searchText) || address.includes(searchText);
+
+                    const matchesFilter =
+                        activeFilter === 'all' || categories.includes(activeFilter);
+
+                    if (matchesSearch && matchesFilter) {
+                        card.style.display = '';   // 👈 KEEP FLEX/GRID
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // Search
+            searchInput.addEventListener('input', applyFilters);
+
+            // Filter
+            filterItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    activeFilter = item.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            const darkToggle = document.getElementById('darkModeToggle');
+
+            // Load saved mode
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                darkToggle.innerText = 'Light Mode';
+            }
+
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('darkMode', 'enabled');
+                    darkToggle.innerText = 'Light Mode';
+                } else {
+                    localStorage.setItem('darkMode', 'disabled');
+                    darkToggle.innerText = 'Dark Mode';
+                }
+            });
+        </script>
+
+
+
+</body>
+</html>

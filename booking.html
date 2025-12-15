@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Parking | ParkSmart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/booking.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="ParkSmart">
+        <span>ParkSmart</span>
+    </div>
+</header>
+
+<!-- ===== BOOKING FORM ===== -->
+<main class="booking-container">
+    <div class="booking-card">
+        <h2>Book Your Parking Spot</h2>
+        <p class="subtitle">Fill in the details to reserve your spot</p>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Booking Form -->
+        <form method="POST" action="{{ url_for('booking') }}">
+
+            <div class="form-group">
+                <label>Vehicle Number</label>
+                <input type="text" name="vehicle_number" placeholder="MH-31-AB-1234" required>
+            </div>
+
+            <div class="form-group">
+                <label>Location</label>
+                <select name="location" required>
+                    <option value="" disabled selected>Select a location</option>
+                    <option value="Cafe- Farzi">Cafe- Farzi</option>
+                    <option value="Explore Park Nagpur">Explore Park Nagpur</option>
+                    <option value="Mahal Road">Mahal Road</option>
+                    <option value="Civil Lines City-Court">Civil Lines City-Court</option>
+                    <option value="Zero-Mile Freedom Park">Zero-Mile Freedom Park</option>
+                    <option value="Deekshabhoomi">Deekshabhoomi</option>
+                    <option value="Hotel Redisson Blu">Hotel Redisson Blu</option>
+                    <option value="Priyadarshini College Dighdoh">Priyadarshini College Dighdoh</option>
+                    <option value="YCCE college Nagpur">YCCE college Nagpur</option>
+                    <option value="London Street Nagpur">London Street Nagpur</option>
+                    <option value="Nagpur Airport">Nagpur Airport</option>
+                    <option value="Nagpur Centrail Railway Station">Nagpur Centrail Railway Station</option>
+                    <option value="Reshimbagh Nagpur">Reshimbagh Nagpur</option>
+                    <option value="Swaminarayan Temple Nagpur">Swaminarayan Temple Nagpur</option>
+                    <option value="Ajni Railway Station">Ajni Railway Station</option>
+                    <option value="MIDC Butibori">MIDC Butibori</option>
+                    <option value="Infosys Nagpur">Infosys Nagpur</option>
+                    <option value="TCS Nagpur">TCS Nagpur</option>
+                    <option value="Gorewada Zoo">Gorewada Zoo</option>
+                    <option value="Maharaja Bagh">Maharaja Bagh</option>
+                    <option value="Friends Colony">Friends Colony</option>
+                    <option value="Ganeshpeth Main-Bus Stop">Ganeshpeth Main-Bus Stop</option>
+                    <option value="RBI Square">RBI Square</option>
+                    <option value="HCL Nagpur">HCL Nagpur</option>
+                    <option value="Persistent Nagpur">Persistent Nagpur</option>
+                    <option value="Ramdeobaba College Nagpur">Ramdeobaba College Nagpur</option>
+                    <option value="VCA Cricket Stadium">VCA Cricket Stadium</option>
+                    <option value="Sita buldi Nagpur">Sita buldi Nagpur</option>
+                    <option value="Sakkardhara">Sakkardhara</option>
+                    <option value="Pardi Nagpur">Pardi Nagpur</option>
+                    <option value="Siminary Hills Nagpur">Siminary Hills Nagpur</option>
+                    <option value="Futala Lake">Futala Lake</option>
+                    <option value="Ambazari Lake">Ambazari Lake</option>
+                    <option value="VR Mall,Nagpur">VR Mall, Nagpur</option>
+                    <option value="Eternity Mall buldi">Eternity Mall buldi</option>
+                    <option value="Shree Sai Temple">Shree Sai Temple</option>
+                    <option value="Kasturchand Park">Kasturchand Park</option>
+                    <option value="Jaripatka Nagpur">Jaripatka Nagpur</option>
+                    <option value="Bahadura">Bahadura</option>
+                    <option value="Hotel Tuli Emperial">Hotel Tuli Emperial</option>
+                    <option value="Lata Mangeshkar Hospital">Lata Mangeshkar Hospital</option>
+                    <option value="Seven-Star-Hospital-Nagpur">Seven-Star-Hospital-Nagpur</option>
+                </select>
+            </div>
+
+           <div class="form-group">
+                <label>Start From</label>
+                <input type="datetime-local" id="start_time" name="start_time" required>
+            </div>
+
+            <div class="form-group">
+                <label>Till What Time</label>
+                <input type="datetime-local" id="end_time" name="end_time" required>
+            </div>
+
+            <button type="submit" class="confirm-btn">Confirm Booking</button>
+
+        </form>
+    </div>
+</main>
+    <script>
+        // Set min attribute to current datetime
+        const startInput = document.getElementById("start_time");
+        const endInput = document.getElementById("end_time");
+
+        function pad(number) {
+            return number < 10 ? '0' + number : number;
+        }
+
+        function getCurrentDateTimeLocal() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = pad(now.getMonth() + 1);
+            const day = pad(now.getDate());
+            const hours = pad(now.getHours());
+            const minutes = pad(now.getMinutes());
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+
+        // Set min attribute
+        const nowStr = getCurrentDateTimeLocal();
+        startInput.min = nowStr;
+        endInput.min = nowStr;
+
+        // Optional: Automatically update end time min if start time changes
+        startInput.addEventListener('change', () => {
+            endInput.min = startInput.value;
+        });
+    </script>
+
+</body>
+</html>

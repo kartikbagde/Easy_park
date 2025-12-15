@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ParkSmart Signup</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logologin.jpg') }}">
+</head>
+
+<body>
+
+  
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="popup show">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="login-container">
+
+    
+    <video autoplay muted loop class="login-video">
+      <source src="{{ url_for('static', filename='images/login2.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    
+    <div class="form-section">
+      <h2>Create your account</h2>
+
+      
+      <form id="signupForm" action="{{ url_for('signup') }}" method="POST">
+
+        <div class="input-box">
+          <input type="text" id="name" name="username" placeholder="Full Name" required>
+          <span class="status-icon" id="nameStatus"></span>
+        </div>
+
+        <div class="input-box">
+          <input type="number" id="phone" name="phone" placeholder="Phone Number" required>
+          <span class="status-icon" id="phoneStatus"></span>
+        </div>
+
+        <div class="input-box">
+          <input type="email" id="email" name="email" placeholder="Email Address" required>
+          <span class="status-icon" id="emailStatus"></span>
+        </div>
+
+        <div class="input-box">
+          <input type="password" id="password" name="password" placeholder="Create Password" required>
+          <span class="eye-icon" id="togglePassword">👁️</span>
+          <span class="status-icon" id="passStatus"></span>
+        </div>
+
+        <button type="submit" class="main-btn">Sign Up</button>
+
+        <div class="divider"><span>OR</span></div>
+
+        <a href="{{ url_for('login') }}" class="signup-btn">Already have an account? Login</a>
+
+      </form>
+    </div>
+  </div>
+
+  
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="loading-text">Creating your account...</div>
+  </div>
+
+  <script>
+    
+    const validate = (id, statusId, pattern) => {
+      const input = document.getElementById(id);
+      const statusIcon = document.getElementById(statusId);
+
+      input.addEventListener("input", () => {
+        if (pattern.test(input.value)) {
+          statusIcon.textContent = "✔";
+          statusIcon.className = "status-icon valid";
+        } else {
+          statusIcon.textContent = "✘";
+          statusIcon.className = "status-icon invalid";
+        }
+      });
+    };
+
+    validate("name", "nameStatus", /^[A-Za-z ]{3,}$/);
+    validate("phone", "phoneStatus", /^[0-9]{10}$/);
+    validate("email", "emailStatus", /^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    validate("password", "passStatus", /^.{6,}$/);
+
+    document.getElementById("togglePassword").addEventListener("click", () => {
+      const pass = document.getElementById("password");
+      pass.type = pass.type === "password" ? "text" : "password";
+    });
+
+   
+    const form = document.getElementById('signupForm');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    form.addEventListener('submit', function() {
+      loadingOverlay.classList.add('show');
+    });
+  </script>
+
+</body>
+</html>

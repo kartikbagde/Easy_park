@@ -1,0 +1,272 @@
+/* ----------------------------
+   BODY
+----------------------------- */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a, #2a003f);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+/* ----------------------------
+   MAIN LOGIN CONTAINER
+----------------------------- */
+.login-container {
+  display: flex;
+  background: #1f1f1f;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  overflow: hidden;
+  width: 800px;
+  max-width: 95%;
+}
+.login-container {
+  height: 500px;   /* or 600px depending on your design */
+}
+
+
+/* ----------------------------
+   LEFT SIDE – VIDEO BACKGROUND
+----------------------------- */
+.image-section {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  background: #2a2a2a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-video {
+  width: 150%;      /* make video wider so it can pan */
+  height: 100%;
+  object-fit: cover;
+  /* animation: panVideo 12s linear infinite alternate; */
+}
+@keyframes panVideo {
+  from { transform: translateX(0); }
+  to { transform: translateX(-20%); }
+}
+
+.login-container:hover {
+  transform: translateY(-6px);
+  transition: 0.4s ease;
+}
+/* ----------------------------
+   RIGHT SIDE – LOGIN FORM
+----------------------------- */
+.form-section {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #1f1f1f;
+  color: #fff;
+}
+.form-section {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+.form-section h2 {
+  margin-bottom: 30px;
+  font-weight: 400;
+}
+
+.form-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section input {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background: #333;
+  color: #fff;
+}
+.form-section input:focus {
+  border: 1px solid #6a67ce;
+  box-shadow: 0 0 8px #6a67ce;
+  transition: 0.3s;
+}
+
+.form-section input::placeholder {
+  color: #bbb;
+}
+
+
+/* Forgot password */
+.forgot {
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.forgot:hover {
+  color: #fff;
+}
+
+
+/* Login button */
+button {
+  padding: 12px;
+  background: linear-gradient(90deg, #8e2de2, #4a00e0);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  opacity: 0.9;
+}
+
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+  color: #bbb;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #444;
+}
+
+.divider:not(:empty)::before { margin-right: 10px; }
+.divider:not(:empty)::after { margin-left: 10px; }
+
+
+/* Signup button */
+.signup-btn {
+  text-align: center;
+  padding: 12px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.signup-btn:hover {
+  background: #333;
+}
+
+
+/* ----------------------------
+   POPUP
+----------------------------- */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: #1f1f1f;
+  color: #fff;
+  padding: 25px 40px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+.popup.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+
+/* ----------------------------
+   LOADING OVERLAY
+----------------------------- */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.loading-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* Spinner */
+.spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #00bcd4;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+
+/* ----------------------------
+   OPTIONAL NEON GLOW ANIMATION
+----------------------------- */
+@keyframes neonGlow {
+  from {
+    filter: drop-shadow(0 0 8px #00eaff) drop-shadow(0 0 15px #00eaff);
+    transform: scale(1);
+  }
+  to {
+    filter: drop-shadow(0 0 20px #00ffcc) drop-shadow(0 0 35px #00ffcc);
+    transform: scale(1.05);
+  }
+}
+
+button {
+  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  background-size: 300%;
+  animation: gradientMove 5s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

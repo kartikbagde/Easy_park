@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>ParkSmart — GH Raisoni Wadi Campus</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/ghr_wadi.css') }}">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    </head>
+    <body>
+      <header class="navbar">
+        <div class="nav-logo">
+          <img src="{{ url_for('static', filename='images/parksmartlogo.jpeg') }}" alt="ParkSmart Logo" class="logo-img">
+          <h1>ParkSmart</h1>
+        </div>
+        <ul class="nav-links">
+          <li><a href="{{ url_for('main') }}">Home</a></li>
+          <li><a href="{{ url_for('main') }}">FAQs</a></li>
+          <li><a href="{{ url_for('main') }}">About Us</a></li>
+          <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+        </ul>
+      </header>
+      
+      <section class="page-header">
+        <h2>GH Raisoni Wadi Campus — Student Parking Slots</h2>
+      </section>
+
+      <main class="main-container">
+        <div class="map-container">
+          <div id="map"></div>
+        </div>
+
+        <div class="slots-container">
+          <div id="controls">
+            <button onclick="minimizeAll()">Minimize All</button>
+            <button onclick="maximizeAll()">Maximize All</button>
+          </div>
+          <div id="slots"></div>
+          <button id="bookBtn" onclick="bookSelectedSlot()" disabled>Book Selected Slot</button>
+        </div>
+      </main>
+
+      <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script>
+          // -------------------------
+          // CONFIG: Gate definitions
+          // -------------------------
+          // Replace lat/lng below with accurate gate coordinates for your campus.
+          const gates = [
+            { id: 'main-gate', name: 'Main Gate', lat: 21.12345, lon: 79.00375, slotsText: '30 / 50', color: '#4285f4' },
+            { id: 'back-gate', name: 'Back Gate', lat: 21.12395, lon: 79.00400, slotsText: '12 / 20', color: '#34a853' },
+            { id: 'hostel-gate', name: 'Hostel Gate', lat: 21.12330, lon: 79.00320, slotsText: '18 / 40', color: '#fbbc05' },
+            { id: 'parking-lot', name: 'Parking Lot', lat: 21.12375, lon: 79.00395, slotsText: '40 / 70', color: '#ea4335' }
+          ];
+
+          const campusName = "gh raisoni wadi";
+
+          // -------------------------
+          // Initialize map (your original params)
+          // -------------------------
+          const studentParkingCoords = [
+            [21.1232, 79.0030],
+            [21.1232, 79.0040],
+            [21.1240, 79.0040],
+            [21.1240, 79.0030]
+          ];
+
+          const map = L.map('map', { minZoom: 17, maxZoom: 22 }).setView([21.1236, 79.0035], 19);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+          }).addTo(map);
+
+          L.polygon(studentParkingCoords, { color: '#00b300', weight: 2, fillOpacity: 0.05 }).addTo(map);
+
+          // -------------------------
+          // Helper: haversine distance (km)
+          // -------------------------
+          function haversineKm(lat1, lon1, lat2, lon2) {
+            const R = 6371; // km
+            const toRad = deg => deg * Math.PI / 180;
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+          }
+
+          // -------------------------
+          // Create gate markers (DivIcon) with bubble-popups, bounce, auto-pan
+          // -------------------------
+          const gateMarkers = [];
+
+          gates.forEach(g => {
+            const html = `<span class="gate-dot" style="background:${g.color};"></span>`;
+            const icon = L.divIcon({
+              className: 'gate-divicon',
+              html: html,
+              iconSize: [22, 22],
+              iconAnchor: [11, 22]
+            });
+
+            const marker = L.marker([g.lat, g.lon], { icon: icon, riseOnHover: true }).addTo(map);
+
+            // Popup/bubble HTML (initially shows calculating distance)
+            const popupHtml = `
+              <div class="gate-bubble">
+                <div class="bubble-head">
+                  <strong>${g.name}</strong>
+                </div>
+                <div class="bubble-body">
+                  <div class="bubble-row"><span>Slots:</span> <span class="slots-text">${g.slotsText}</span></div>
+                  <div class="bubble-row"><span>Distance:</span> <span class="distance-text">Calculating...</span></div>
+                </div>
+                <div class="bubble-actions">
+                  <button class="btn-go" data-gate="${g.id}">Show Slots</button>
+                </div>
+              </div>
+            `;
+
+            marker.bindPopup(popupHtml, { closeButton: true, offset: [0, -20], className: 'gate-popup' });
+
+            // Bounce on add
+            marker.on('add', () => {
+              const el = marker._icon;
+              if (!el) return;
+              el.classList.add('gate-bounce');
+              el.addEventListener('animationend', () => el.classList.remove('gate-bounce'), { once: true });
+            });
+
+            // On click: open popup and pan to marker so popup is visible (auto-adjust)
+            marker.on('click', () => {
+              marker.openPopup();
+              // ensure popup fits in viewport by panning slightly upward
+              map.panTo(marker.getLatLng(), { animate: true, duration: 0.35 });
+            });
+
+            // When popup opens, compute distance (if user grants geolocation)
+            marker.on('popupopen', (ev) => {
+              const popupNode = ev.popup.getElement();
+              if (!popupNode) return;
+              const distEl = popupNode.querySelector('.distance-text');
+              const goBtn = popupNode.querySelector('.btn-go');
+
+              // attach go button: pan to parking polygon & highlight nearest slot (optional)
+              if (goBtn) {
+                goBtn.onclick = () => {
+                  // Pan to parking area center and open slot list (you can customize)
+                  map.panTo([21.1236, 79.0035], { animate: true });
+                  // Optionally highlight gate marker
+                  ev.popup._source._icon.classList.add('pulse-highlight');
+                  setTimeout(() => ev.popup._source._icon.classList.remove('pulse-highlight'), 1200);
+                };
+              }
+
+              // compute distance
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                  const userLat = position.coords.latitude;
+                  const userLon = position.coords.longitude;
+                  const km = haversineKm(userLat, userLon, g.lat, g.lon);
+                  // show meters if <1 km
+                  const text = km < 1 ? `${Math.round(km*1000)} m` : `${km.toFixed(2)} km`;
+                  if (distEl) distEl.textContent = text;
+                }, () => {
+                  if (distEl) distEl.textContent = 'Unavailable';
+                }, { maximumAge: 60_000, timeout: 5000 });
+              } else {
+                if (distEl) distEl.textContent = 'Geolocation unsupported';
+              }
+            });
+
+            gateMarkers.push(marker);
+          });
+
+          // -------------------------
+          // Keep your original slot generation + booking logic below (unchanged),
+          // I simply append it so it integrates with the gate markers above.
+          // -------------------------
+          const slotData = [];
+          const rows = 10;
+          const cols = 14;
+          const latStart = studentParkingCoords[0][0];
+          const latEnd = studentParkingCoords[2][0];
+          const lonStart = studentParkingCoords[0][1];
+          const lonEnd = studentParkingCoords[2][1];
+
+          let selectedSlot = null;
+
+          fetch("/get_booked_slots", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ campus: campusName })
+          })
+          .then(res => res.json())
+          .then(bookedSlots => {
+            for (let i = 0; i < rows; i++) {
+              for (let j = 0; j < cols; j++) {
+                const lat = latStart + i * (latEnd - latStart) / rows;
+                const lon = lonStart + j * (lonEnd - lonStart) / cols;
+                const slotId = `R${i+1}C${j+1}`;
+                const booked = bookedSlots.includes(slotId);
+                const color = booked ? '#00b300' : '#ff0000';
+
+                const marker = L.circleMarker([lat, lon], { radius: 4, color: color, fillOpacity: 1 }).addTo(map);
+                marker.slotId = slotId;
+                marker.booked = booked;
+
+                marker.bindPopup(`
+                  <b>Parking Slot</b><br>${slotId}<br>
+                  <button class="popup-btn" ${booked ? "disabled" : ""}>Book This Spot</button>
+                `, { autoClose: false, closeOnClick: false });
+
+                marker.on('popupopen', function(e) {
+                  const btn = e.popup._contentNode.querySelector(".popup-btn");
+                  if (btn) {
+                    btn.onclick = function() {
+                      if (!marker.booked) bookSlot(marker.slotId, marker);
+                    };
+                  }
+                });
+
+                slotData.push({ id: slotId, marker: marker, booked: booked });
+              }
+            }
+            renderSlotList();
+          });
+
+          function renderSlotList() {
+            const slotsDiv = document.getElementById('slots');
+            slotsDiv.innerHTML = "";
+            slotData.forEach(slot => {
+              const slotEl = document.createElement('div');
+              slotEl.className = 'slot';
+              slotEl.id = slot.id;
+              slotEl.innerHTML = `
+                <div class='slot-header'>
+                  ${slot.id} <button class='toggle-btn'>➕</button>
+                </div>
+                <div class='slot-details'>
+                  <p>Size: Standard</p>
+                  <p>Near Entrance: Yes</p>
+                  <p>Status: ${slot.booked ? "Booked" : "Available"}</p>
+                </div>
+              `;
+              slotEl.onclick = () => selectSlot(slotEl);
+              slotEl.querySelector(".toggle-btn").onclick = e => { e.stopPropagation(); toggleSlot(slotEl); };
+              slotsDiv.appendChild(slotEl);
+            });
+          }
+
+          function selectSlot(element) {
+            document.querySelectorAll(".slot").forEach(s => s.classList.remove("selected"));
+            element.classList.add("selected");
+            selectedSlot = element.id;
+            const slot = slotData.find(s => s.id === selectedSlot);
+            document.getElementById("bookBtn").disabled = slot.booked;
+            if (slot) map.panTo(slot.marker.getLatLng());
+          }
+
+          function toggleSlot(slotEl) {
+            const details = slotEl.querySelector(".slot-details");
+            const visible = details.style.display === "block";
+            details.style.display = visible ? "none" : "block";
+            slotEl.querySelector(".toggle-btn").textContent = visible ? "➕" : "➖";
+          }
+
+          function minimizeAll() {
+            document.querySelectorAll(".slot-details").forEach(d => d.style.display = "none");
+            document.querySelectorAll(".toggle-btn").forEach(b => b.textContent = "➕");
+          }
+
+          function maximizeAll() {
+            document.querySelectorAll(".slot-details").forEach(d => d.style.display = "block");
+            document.querySelectorAll(".toggle-btn").forEach(b => b.textContent = "➖");
+          }
+
+          function bookSelectedSlot() {
+            if (selectedSlot) {
+              const slot = slotData.find(s => s.id === selectedSlot);
+              if (!slot.booked) bookSlot(selectedSlot, slot.marker);
+            }
+          }
+
+          function bookSlot(slotId, marker) {
+            fetch("/book_slot", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ slot_id: slotId, campus: campusName })
+            })
+            .then(res => res.json())
+            .then(data => {
+              alert(data.message);
+              if (data.status === "success") {
+                const slot = slotData.find(s => s.id === slotId);
+                slot.booked = true;
+                marker.setStyle({ color: "#00b300" });
+                const slotDiv = document.getElementById(slotId);
+                if (slotDiv) slotDiv.querySelector(".slot-details p:last-child").innerText = "Status: Booked";
+                document.getElementById("bookBtn").disabled = true;
+              }
+            });
+          }
+        </script>
+    </body>
+</html>

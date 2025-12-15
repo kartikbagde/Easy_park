@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ParkSmart — GH Raisoni Dighdoh Campus</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ghr_wadi.css') }}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+
+<body>
+<header class="navbar">
+  <div class="nav-logo">
+    <img src="{{ url_for('static', filename='images/parksmartlogo.jpeg') }}" class="logo-img">
+    <h1>ParkSmart</h1>
+  </div>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="#faq">FAQs</a></li>
+    <li><a href="#">About Us</a></li>
+    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+  </ul>
+</header>
+
+<section class="page-header">
+  <h2>GH Raisoni Dighdoh Campus — Student Parking Slots</h2>
+</section>
+
+<main class="main-container">
+  <div class="map-container">
+    <div id="map"></div>
+  </div>
+
+  <div class="slots-container">
+    <div id="controls">
+      <button onclick="minimizeAll()">Minimize All</button>
+      <button onclick="maximizeAll()">Maximize All</button>
+    </div>
+    <div id="slots"></div>
+    <button id="bookBtn" onclick="bookSelectedSlot()" disabled>Book Selected Slot</button>
+  </div>
+</main>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+const campusName = "gh raisoni dighdoh";
+const ONE_HOUR = 3600; // seconds
+
+const map = L.map('map',{minZoom:17,maxZoom:22}).setView([21.1051,79.0035],20);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+const studentParkingCoords = [
+  [21.1056,79.0028],[21.1056,79.0042],
+  [21.1046,79.0042],[21.1046,79.0028]
+];
+L.polygon(studentParkingCoords,{color:'#00b300',fillOpacity:0.05}).addTo(map);
+
+const slotData = [];
+const rows=10, cols=14;
+const latStart=studentParkingCoords[0][0], latEnd=studentParkingCoords[2][0];
+const lonStart=studentParkingCoords[0][1], lonEnd=studentParkingCoords[2][1];
+
+for(let i=0;i<rows;i++){
+  for(let j=0;j<cols;j++){
+    const id=`R${i+1}C${j+1}`;
+    const lat=latStart+i*(latEnd-latStart)/rows;
+    const lon=lonStart+j*(lonEnd-lonStart)/cols;
+
+    const marker=L.circleMarker([lat,lon],{radius:3,color:'#ff0000'}).addTo(map);
+    marker.bindPopup(`<b>${id}</b><br><button class="popup-btn" data-slot="${id}">Book</button>`);
+
+    slotData.push({
+      id, marker,
+      booked:false,
+      timer:null,
+      timeLeft:0
+    });
+  }
+}
+
+function startTimer(slot){
+  slot.timeLeft = ONE_HOUR;
+
+  slot.timer = setInterval(()=>{
+    slot.timeLeft--;
+
+    const el=document.getElementById(slot.id);
+    if(el){
+      el.querySelector(".timer").innerText =
+        `⏳ ${Math.floor(slot.timeLeft/60)}m ${slot.timeLeft%60}s`;
+    }
+
+    if(slot.timeLeft<=0){
+      clearInterval(slot.timer);
+      slot.booked=false;
+      slot.marker.setStyle({color:'#ff0000'});
+      showSlots();
+      alert(`⏰ Slot ${slot.id} expired`);
+    }
+  },1000);
+}
+
+function showSlots(){
+  const div=document.getElementById("slots");
+  div.innerHTML="";
+
+  slotData.forEach(slot=>{
+    const el=document.createElement("div");
+    el.className="slot";
+    el.id=slot.id;
+
+    el.innerHTML=`
+      <div class="slot-header">
+        ${slot.id}
+        <button class="toggle-btn">➕</button>
+      </div>
+      <div class="slot-details">
+        <p>Status: ${slot.booked?'Booked':'Available'}</p>
+        <p class="timer">${slot.booked?'⏳ Running...':''}</p>
+      </div>`;
+
+    el.onclick=()=>selectSlot(el);
+    el.querySelector(".toggle-btn").onclick=e=>{e.stopPropagation();toggleSlot(el);}
+    div.appendChild(el);
+  });
+}
+
+let selectedSlot=null;
+function selectSlot(el){
+  document.querySelectorAll(".slot").forEach(s=>s.classList.remove("selected"));
+  el.classList.add("selected");
+  selectedSlot=el.id;
+
+  const slot=slotData.find(s=>s.id===selectedSlot);
+  document.getElementById("bookBtn").disabled=slot.booked;
+  map.panTo(slot.marker.getLatLng());
+}
+
+function toggleSlot(el){
+  const d=el.querySelector(".slot-details");
+  const v=d.style.display==="block";
+  d.style.display=v?"none":"block";
+  el.querySelector(".toggle-btn").textContent=v?"➕":"➖";
+}
+
+function minimizeAll(){
+  document.querySelectorAll(".slot-details").forEach(d=>d.style.display="none");
+}
+function maximizeAll(){
+  document.querySelectorAll(".slot-details").forEach(d=>d.style.display="block");
+}
+
+function bookSlotAJAX(slotId){
+  const slot=slotData.find(s=>s.id===slotId);
+  if(slot.booked) return;
+
+  fetch("/book_slot",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({slot_id:slotId,campus:campusName})
+  }).then(r=>r.json()).then(data=>{
+    if(data.status==="success"){
+      slot.booked=true;
+      slot.marker.setStyle({color:'#00b300'});
+      startTimer(slot);
+      showSlots();
+      alert("✅ Slot booked for 1 hour");
+    } else alert("❌ Already booked");
+  });
+}
+
+function bookSelectedSlot(){
+  if(selectedSlot) bookSlotAJAX(selectedSlot);
+}
+
+map.on('popupopen',e=>{
+  const btn=e.popup.getElement().querySelector(".popup-btn");
+  if(btn){
+    btn.onclick=()=>bookSlotAJAX(btn.dataset.slot);
+  }
+});
+
+showSlots();
+</script>
+</body>
+</html>

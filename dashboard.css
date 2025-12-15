@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+header h1 {
+    text-align: center;
+    color: #00b300;
+    margin-bottom: 30px;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: #fff;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.stat-card h3 {
+    margin: 0 0 10px 0;
+    color: #00b300;
+}
+
+.stat-card p {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.campuses {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.campus-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.campus-card h2 {
+    margin-top: 0;
+    color: #00b300;
+}
+
+.campus-stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background: #00b300;
+    color: white;
+}
+
+.status {
+    color: red;
+    font-weight: bold;
+}
+
+.no-bookings {
+    font-style: italic;
+    color: #666;
+}

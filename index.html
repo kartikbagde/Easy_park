@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkSmart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+    <div class="logo">
+        <img src="/static/images/logo.jpg" alt="ParkSmart Logo">
+        <span>ParkSmart</span>
+    </div>
+
+    <!-- Header Search -->
+    <!-- <div class="header-search">
+        <input type="text" placeholder="Search for parking location...">
+        <button>Search</button>
+    </div> -->
+
+    <nav>
+        <ul>
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Locations</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li>
+                <button id="darkModeToggle" class="dark-toggle">
+                    <i id="themeIcon" class="fa-solid fa-moon"></i>
+                </button>
+            </li>
+            <li><a href="{{ url_for('search_location') }}" class="main-btn">Search Parking</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- ================= MAIN ================= -->
+<main>
+
+<!-- ===== HERO SECTION ===== -->
+<div class="hero" style="background-image: url('/static/images/main.png');">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-text">
+        <h1>Find & Book Parking in Seconds</h1>
+        <p>Reserve your spot ahead of time. Save money. Skip the hassle.</p>
+
+        <!-- <div class="search-box">
+            <div class="search-field">
+                <label>Location</label>
+                <input type="text" placeholder="Enter Location">
+            </div>
+
+            <div class="search-field">
+                <label>Date</label>
+                <input type="date">
+            </div>
+
+            <div class="search-field">
+                <label>Time</label>
+                <input type="time">
+            </div>
+
+            <div class="search-button">
+                <button>Search</button>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ===== AVAILABLE PARKING ===== -->
+<section class="available-parking container">
+
+    <div class="parking-header">
+        <div>
+            <h2>Available Parking Near You</h2>
+            <p>25 parking spots found</p>
+        </div>
+
+        <div class="filter-dropdown">
+            <button class="filter-btn">Filter <i class="fa-solid fa-chevron-down"></i></button>
+            <ul class="dropdown">
+                <li>Nearest</li>
+                <li>Price Low-High</li>
+                <li>Price High-Low</li>
+                <li>Highly Rated</li>
+                <li>Most Available</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Parking Cards -->
+    <div class="parking-list">
+
+        <div class="parking-card">
+            <img src="https://timess3spore.s3.amazonaws.com/ndata/media/College/college_desktop_webp/1680500640.webp" alt="Parking at GH Raisoni Wadi" loading="lazy">
+            <h3>GH Raisoni Wadi</h3>
+            <p class="address">MIDC police station, Wadi, Nagpur</p>
+            <p class="rating">⭐ 4.5/5</p>
+            <div class="features">
+                <span>EV Charging</span>
+                <span>students and faculty</span>
+                <span>Security</span>
+            </div>
+            <a href="{{ url_for('ghr_wadi') }}"><button class="book-btn">Book Now</button></a>
+        </div>
+
+        <div class="parking-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOFnWSRoaRBiBKHJz3FP4Kbxv7nbRfX_bFDQ&s" alt="Parking at GH Raisoni Dighdoh" loading="lazy">
+            <h3>Nagpur Centrail Jail</h3>
+            <p class="address">Cotton Market,Nagpur</p>
+            <p class="rating">⭐ 4.2/5</p>
+            <div class="features">
+                <span>Security</span>
+                <span>24/7 Open</span>
+                <span>Open for Everyone</span>
+            </div>
+            <a href="{{ url_for('ghr_dighdoh') }}"><button class="book-btn">Book Now</button></a>
+        </div>
+
+        <div class="parking-card">
+            <img src="https://trcww.in/wp-content/uploads/2024/07/infosys-nagpur-1.jpg" alt="Parking at GH Raisoni Sadar" loading="lazy">
+            <h3>infosys Nagpur</h3>
+            <p class="address">Mihan, Nagpur</p>
+            <p class="rating">⭐ 4.8/5</p>
+            <div class="features">
+                <span>EV Charging</span>
+                <span>Security</span>
+            </div>
+            <a href="{{ url_for('ghr_sadar') }}"><button class="book-btn">Book Now</button></a>
+        </div>
+
+    </div>
+
+    <div class="search-more">
+        <a href="{{ url_for('search_location') }}" class="search-more-btn">Search More</a>
+    </div>
+
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="three-parts">
+
+    <h2 class="content-section">How It Works?</h2>
+
+    <p class="subtitle">
+        Book your parking spot in 4 simple steps. No more circling the block.
+    </p>
+
+    <div class="image-text-container">
+
+        <div class="content-boxs">
+            <img src="/static/images/image1.png" alt="Search location">
+            <span>Enter your <b>destination</b> and find parking nearby.</span>
+        </div>
+
+        <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+
+        <div class="content-boxs">
+            <img src="/static/images/image2.png" alt="Choose parking">
+            <span>Compare prices and <b>choose your spot</b>.</span>
+        </div>
+
+        <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+
+        <div class="content-boxs">
+            <img src="/static/images/image3.png" alt="Book parking">
+            <span><b>Park Smartly</b> and enjoy a stress-free experience.</span>
+        </div>
+
+    </div>
+
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ===== COMPARISON ===== -->
+ <div class="compare-section">
+            <div class="heading">
+                <h1>ParkSmart vs Traditional Parking</h1>
+            </div>
+            <div class="main-compare">
+                <div class="youtube2">
+                    <video width="700" height="700" autoplay muted loop>
+                        <source src="/static/images/login2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="right-table">
+                    <table>
+                        <tr>
+                            <th>Features</th>
+                            <th>ParkSmart</th>
+                            <th>Traditional</th>
+                        </tr>
+                        <tr>
+                            <td class="black">Booking</td>
+                            <td class="grey">Online & Instant</td>
+                            <td class="half-white">Manual</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Availability</td>
+                            <td class="grey">Real-time Tracking</td>
+                            <td class="half-white">Uncertain</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Security</td>
+                            <td class="grey">Verified Locations</td>
+                            <td class="half-white">Not Always</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Payment</td>
+                            <td class="grey">Digital & Cashless</td>
+                            <td class="half-white">Cash Only</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Experience</td>
+                            <td class="grey">Seamless & Smart</td>
+                            <td class="half-white">Time-consuming</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-left">
+            <h2>ParkSmart</h2>
+            <p>Find and book parking spots instantly. Save time, save money, park smart.</p>
+        </div>
+
+        <div class="footer-right">
+            <h3>Stay Updated</h3>
+            <p>Subscribe to get the latest updates and offers.</p>
+
+            <div class="footer-subscribe">
+                <input type="email" placeholder="Enter your email">
+                <button>Subscribe</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2025 ParkSmart. All rights reserved.
+    </div>
+
+</footer>
+
+<!-- ================= SCROLL TO TOP ================= -->
+<div class="scroll-progress-container">
+    <svg class="progress-ring" width="60" height="60">
+        <circle class="progress-ring__circle" cx="30" cy="30" r="26"></circle>
+    </svg>
+    <button id="scrollTopBtn">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+    <script>
+/* ===========================
+   SCROLL TO TOP + PROGRESS
+=========================== */
+const scrollContainer = document.querySelector(".scroll-progress-container");
+const scrollBtn = document.getElementById("scrollTopBtn");
+const circle = document.querySelector(".progress-ring__circle");
+
+const radius = circle.r.baseVal.value;
+const circumference = 2 * Math.PI * radius;
+
+circle.style.strokeDasharray = circumference;
+circle.style.strokeDashoffset = circumference;
+
+window.addEventListener("scroll", () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollTop / docHeight;
+
+    circle.style.strokeDashoffset = circumference - progress * circumference;
+    scrollContainer.classList.toggle("show", scrollTop > 300);
+});
+
+scrollBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+/* ===========================
+   DARK MODE SYSTEM
+=========================== */
+const toggleBtn = document.getElementById("darkModeToggle");
+const icon = document.getElementById("themeIcon");
+const body = document.body;
+
+/* Detect system preference */
+const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+/* Load saved theme */
+const savedTheme = localStorage.getItem("theme");
+
+/* Initial theme setup */
+if (savedTheme === "dark" || (!savedTheme && systemDark)) {
+    enableDark();
+} else {
+    disableDark();
+}
+
+/* Toggle on click */
+toggleBtn.addEventListener("click", () => {
+    body.classList.contains("dark-mode") ? disableDark() : enableDark();
+});
+
+/* Functions */
+function enableDark() {
+    body.classList.add("dark-mode");
+    icon.classList.remove("fa-moon");
+    icon.classList.add("fa-sun");
+    localStorage.setItem("theme", "dark");
+}
+
+function disableDark() {
+    body.classList.remove("dark-mode");
+    icon.classList.remove("fa-sun");
+    icon.classList.add("fa-moon");
+    localStorage.setItem("theme", "light");
+}
+</script>
+
+</body>
+</html>

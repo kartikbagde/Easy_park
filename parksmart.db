@@ -1,0 +1,7 @@
+CREATE TABLE locations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    address TEXT,
+    rating REAL,
+    features TEXT
+);

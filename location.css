@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+#map {
+    width: 65%;
+    height: 100%;
+}
+
+.details {
+    width: 35%;
+    padding: 30px;
+    background: #f8fafc;
+}
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+#map {
+    width: 65%;
+    height: 100%;
+}
+
+.details {
+    width: 35%;
+    padding: 30px;
+    background: #f8fafc;
+}
+
+.features span {
+    display: inline-block;
+    background: #e0f2fe;
+    padding: 6px 10px;
+    margin: 5px;
+    border-radius: 20px;
+}
